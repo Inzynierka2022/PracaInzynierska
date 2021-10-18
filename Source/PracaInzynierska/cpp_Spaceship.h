@@ -32,6 +32,8 @@ protected:
 	float forwardThrusterPower;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
 	float rotationThrusterPower;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
+	float shipMass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
 		FVector energyVector;
@@ -53,7 +55,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Movement Functions")
 		void stop();
 	UFUNCTION(BlueprintCallable, Category = "Movement Functions")
-		void addEnergy();
-
-
+		void addEnergy(UPARAM(ref) float deltaTime);
+	UFUNCTION(BlueprintCallable, Category = "Movement Functions")
+		void calculateVelocityVector();
 };

@@ -13,9 +13,12 @@ Acpp_Spaceship::Acpp_Spaceship()
 		this->backwardGears = 2;
 		this->actualGear = 0;
 		this->maxSpeed = 100;
-		this->reverseThrusterPower = 100;
+		this->reverseThrusterPower = 10;
 		this->forwardThrusterPower = 50;
 		this->rotationThrusterPower = 25;
+		this->shipMass = 1;
+		this->velocityVector = { 0,0,0 };
+		this->energyVector = { 0,0,0 };
 
 }
 
@@ -55,8 +58,30 @@ void Acpp_Spaceship::stop()
 	this->actualGear = 0;
 }
 
-void Acpp_Spaceship::addEnergy()
+void Acpp_Spaceship::addEnergy(UPARAM(ref) float deltaTime)
 {
+	FRotator actorRotation = this->GetActorRotation();
+	FVector deltaEnergyVector = {};
 
+	if (this->actualGear == 0)return;
+	if (this->actualGear > 0)
+	{
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("This is an on screen message!1"));
+		deltaEnergyVector = { this->forwardThrusterPower * deltaTime * ((float)this->actualGear/ (float)this->forwardGears),0,0 };
+	}
+	else if (this->actualGear < 0)
+	{
+		deltaEnergyVector = { this->forwardThrusterPower * deltaTime * ((float)this->actualGear / (float)this->backwardGears),0,0 };
+	}
+
+	deltaEnergyVector = actorRotation.RotateVector(deltaEnergyVector);
+	this->energyVector += deltaEnergyVector;
 }
 
+void Acpp_Spaceship::calculateVelocityVector()
+{
+	FVector deltaVelocity = (this->energyVector * 2) / this->shipMass;
+	deltaVelocity.X = sqrt(deltaVelocity.X);
+	deltaVelocity.Z = sqrt(deltaVelocity.Z);
+	this->velocityVector = deltaVelocity;
+}
