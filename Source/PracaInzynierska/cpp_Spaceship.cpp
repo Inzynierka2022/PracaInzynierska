@@ -13,12 +13,16 @@ Acpp_Spaceship::Acpp_Spaceship()
 		this->backwardGears = 2;
 		this->actualGear = 0;
 		this->maxSpeed = 100;
-		this->reverseThrusterPower = 10;
-		this->forwardThrusterPower = 50;
+		this->reverseThrusterPower = 2;
+		this->forwardThrusterPower = 10;
 		this->rotationThrusterPower = 25;
 		this->shipMass = 1;
 		this->velocityVector = { 0,0,0 };
 		this->energyVector = { 0,0,0 };
+
+		//calculate drag factor
+		this->dragFactor = this->forwardThrusterPower / this->maxSpeed;
+		
 
 }
 
@@ -81,7 +85,29 @@ void Acpp_Spaceship::addEnergy(UPARAM(ref) float deltaTime)
 void Acpp_Spaceship::calculateVelocityVector()
 {
 	FVector deltaVelocity = (this->energyVector * 2) / this->shipMass;
-	deltaVelocity.X = sqrt(deltaVelocity.X);
-	deltaVelocity.Z = sqrt(deltaVelocity.Z);
+
+	if (deltaVelocity.X < 0)deltaVelocity.X = -sqrt(-deltaVelocity.X);
+	else deltaVelocity.X = sqrt(deltaVelocity.X);
+	
+	if (deltaVelocity.Y < 0)deltaVelocity.Y = -sqrt(-deltaVelocity.Y);
+	else deltaVelocity.Y = sqrt(deltaVelocity.Y);
+
 	this->velocityVector = deltaVelocity;
+}
+
+void Acpp_Spaceship::turnRight(UPARAM(ref) float deltaTime)
+{
+	FRotator NewRotation = GetActorRotation().Add(0, rotationThrusterPower* deltaTime, 0);
+	SetActorRotation(NewRotation);
+}
+
+void Acpp_Spaceship::turnLeft(UPARAM(ref) float deltaTime)
+{
+	FRotator NewRotation = GetActorRotation().Add(0, -rotationThrusterPower* deltaTime, 0);
+	SetActorRotation(NewRotation);
+}
+
+float Acpp_Spaceship::calculateDrag(UPARAM(ref) float deltaTime, UPARAM(ref) float velocity)
+{
+	return deltaTime * (this->dragFactor * velocity * velocity);
 }

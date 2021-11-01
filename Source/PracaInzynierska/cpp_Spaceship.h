@@ -36,6 +36,9 @@ protected:
 	float shipMass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
+	float dragFactor;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
 		FVector energyVector;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
 		FVector velocityVector;
@@ -58,4 +61,10 @@ public:
 		void addEnergy(UPARAM(ref) float deltaTime);
 	UFUNCTION(BlueprintCallable, Category = "Movement Functions")
 		void calculateVelocityVector();
+	UFUNCTION(BlueprintCallable, Category = "Movement Functions")
+		void turnRight(UPARAM(ref) float deltaTime);
+	UFUNCTION(BlueprintCallable, Category = "Movement Functions")
+		void turnLeft(UPARAM(ref) float deltaTime);
+	UFUNCTION(BlueprintCallable, Category = "Movement Functions")
+		float calculateDrag(UPARAM(ref) float deltaTime, UPARAM(ref) float velocity);
 };
