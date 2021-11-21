@@ -19,6 +19,8 @@ Acpp_Spaceship::Acpp_Spaceship()
 		this->shipMass = 1;
 		this->velocityVector = { 0,0,0 };
 		this->energyVector = { 0,0,0 };
+		this->fluidDensity = 1.225; //density of air
+		this->dragFactor = 2.05;//drag factor of square
 
 		//calculate drag factor
 		this->dragFactor = this->forwardThrusterPower / this->maxSpeed;
@@ -107,7 +109,15 @@ void Acpp_Spaceship::turnLeft(UPARAM(ref) float deltaTime)
 	SetActorRotation(NewRotation);
 }
 
-float Acpp_Spaceship::calculateDrag(UPARAM(ref) float deltaTime, UPARAM(ref) float velocity)
+float Acpp_Spaceship::calculateDragForce(UPARAM(ref) float velocity)
 {
-	return deltaTime * (this->dragFactor * velocity * velocity);
+	return 0.5 * this->fluidDensity * pow(velocity,2) * this->dragFactor * 1;
+	//F = 0.5 * density * velocity^2 * drag_factor * reference_area
+}
+
+FVector Acpp_Spaceship::calculateDragVector(UPARAM(ref) float deltaTime, UPARAM(ref) float dragForce)
+{
+	this->dragVector = this->energyVector;
+	this->dragVector.Normalize();
+	this->dragVector *= dragForce * deltaTime * -1;
 }

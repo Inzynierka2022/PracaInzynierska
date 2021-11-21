@@ -37,11 +37,15 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
 	float dragFactor;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
+	float fluidDensity;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
 		FVector energyVector;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
 		FVector velocityVector;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
+		FVector dragVector;
 
 
 public:	
@@ -66,5 +70,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Movement Functions")
 		void turnLeft(UPARAM(ref) float deltaTime);
 	UFUNCTION(BlueprintCallable, Category = "Movement Functions")
-		float calculateDrag(UPARAM(ref) float deltaTime, UPARAM(ref) float velocity);
+		float calculateDragForce(UPARAM(ref) float velocity);
+	UFUNCTION(BlueprintCallable, Category = "Movement Functions")
+		FVector calculateDragVector(UPARAM(ref) float deltaTime, UPARAM(ref) float dragForce);
 };
