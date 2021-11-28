@@ -1,10 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-
+#include <string>
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "cpp_Spaceship.generated.h"
+
 
 UCLASS(Blueprintable)
 class PRACAINZYNIERSKA_API Acpp_Spaceship : public APawn
@@ -27,6 +28,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
 	float maxSpeed;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
+	float maxEnergyVector;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
 	float reverseThrusterPower;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
 	float forwardThrusterPower;
@@ -37,6 +40,8 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
 	float dragFactor;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
+	float dragForce;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
 	float fluidDensity;
 
@@ -66,11 +71,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Movement Functions")
 		void calculateVelocityVector();
 	UFUNCTION(BlueprintCallable, Category = "Movement Functions")
-		void turnRight(UPARAM(ref) float deltaTime);
+		void calculateDragForce(UPARAM(ref) float velocity);
 	UFUNCTION(BlueprintCallable, Category = "Movement Functions")
-		void turnLeft(UPARAM(ref) float deltaTime);
-	UFUNCTION(BlueprintCallable, Category = "Movement Functions")
-		float calculateDragForce(UPARAM(ref) float velocity);
-	UFUNCTION(BlueprintCallable, Category = "Movement Functions")
-		FVector calculateDragVector(UPARAM(ref) float deltaTime, UPARAM(ref) float dragForce);
+		void calculateDragVector(UPARAM(ref) float deltaTime);
 };

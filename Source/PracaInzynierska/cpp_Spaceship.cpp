@@ -1,3 +1,4 @@
+
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
@@ -12,20 +13,18 @@ Acpp_Spaceship::Acpp_Spaceship()
 		this->forwardGears = 5;
 		this->backwardGears = 2;
 		this->actualGear = 0;
-		this->maxSpeed = 100;
+		this->maxSpeed = 2;
+		this->shipMass = 1;
+		
+		this->maxEnergyVector = this->shipMass * this->maxSpeed * this->maxSpeed * 0.5;
+
 		this->reverseThrusterPower = 2;
 		this->forwardThrusterPower = 10;
-		this->rotationThrusterPower = 25;
-		this->shipMass = 1;
+		this->rotationThrusterPower = 0.1;
 		this->velocityVector = { 0,0,0 };
 		this->energyVector = { 0,0,0 };
 		this->fluidDensity = 1.225; //density of air
 		this->dragFactor = 2.05;//drag factor of square
-
-		//calculate drag factor
-		this->dragFactor = this->forwardThrusterPower / this->maxSpeed;
-		
-
 }
 
 // Called when the game starts or when spawned
@@ -39,7 +38,7 @@ void Acpp_Spaceship::BeginPlay()
 void Acpp_Spaceship::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	 
 }
 
 // Called to bind functionality to input
@@ -82,6 +81,12 @@ void Acpp_Spaceship::addEnergy(UPARAM(ref) float deltaTime)
 
 	deltaEnergyVector = actorRotation.RotateVector(deltaEnergyVector);
 	this->energyVector += deltaEnergyVector;
+
+	if (this->energyVector.Size() > this->maxEnergyVector)
+	{
+		this->energyVector.Normalize();
+		this->energyVector *= this->maxEnergyVector;
+	}
 }
 
 void Acpp_Spaceship::calculateVelocityVector()
@@ -97,27 +102,14 @@ void Acpp_Spaceship::calculateVelocityVector()
 	this->velocityVector = deltaVelocity;
 }
 
-void Acpp_Spaceship::turnRight(UPARAM(ref) float deltaTime)
+void Acpp_Spaceship::calculateDragForce(UPARAM(ref) float velocity)
 {
-	FRotator NewRotation = GetActorRotation().Add(0, rotationThrusterPower* deltaTime, 0);
-	SetActorRotation(NewRotation);
+	this->dragForce = 0.5 * this->fluidDensity * pow(velocity, 2) * this->dragFactor * 1;
 }
 
-void Acpp_Spaceship::turnLeft(UPARAM(ref) float deltaTime)
-{
-	FRotator NewRotation = GetActorRotation().Add(0, -rotationThrusterPower* deltaTime, 0);
-	SetActorRotation(NewRotation);
-}
-
-float Acpp_Spaceship::calculateDragForce(UPARAM(ref) float velocity)
-{
-	return 0.5 * this->fluidDensity * pow(velocity,2) * this->dragFactor * 1;
-	//F = 0.5 * density * velocity^2 * drag_factor * reference_area
-}
-
-FVector Acpp_Spaceship::calculateDragVector(UPARAM(ref) float deltaTime, UPARAM(ref) float dragForce)
+void Acpp_Spaceship::calculateDragVector(UPARAM(ref) float deltaTime)
 {
 	this->dragVector = this->energyVector;
 	this->dragVector.Normalize();
-	this->dragVector *= dragForce * deltaTime * -1;
+	this->dragVector *= this->dragForce * deltaTime * -1;
 }
