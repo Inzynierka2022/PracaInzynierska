@@ -20,30 +20,30 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
-	int actualGear;
+		int actualGear;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
-	int forwardGears;
+		int forwardGears;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
-	int backwardGears;
+		int backwardGears;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
-	float maxSpeed;
+		float maxSpeed;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
-	float maxEnergyVector;
+		float maxEnergyVector;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
-	float reverseThrusterPower;
+		float reverseThrusterPower;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
-	float forwardThrusterPower;
+		float forwardThrusterPower;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
-	float rotationThrusterPower;
+		float rotationThrusterPower;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
-	float shipMass;
+		float shipMass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
-	float dragFactor;
+		float dragFactor;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
-	float dragForce;
+		float dragForce;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
-	float fluidDensity;
+		float fluidDensity;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
 		FVector energyVector;
@@ -53,7 +53,7 @@ protected:
 		FVector dragVector;
 
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 

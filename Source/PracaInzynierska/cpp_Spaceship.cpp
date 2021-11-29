@@ -7,38 +7,38 @@
 // Sets default values
 Acpp_Spaceship::Acpp_Spaceship()
 {
- 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-		this->forwardGears = 5;
-		this->backwardGears = 2;
-		this->actualGear = 0;
-		this->maxSpeed = 2;
-		this->shipMass = 1;
-		
-		this->maxEnergyVector = this->shipMass * this->maxSpeed * this->maxSpeed * 0.5;
+	this->forwardGears = 5;
+	this->backwardGears = 2;
+	this->actualGear = 0;
+	this->maxSpeed = 2;
+	this->shipMass = 1;
 
-		this->reverseThrusterPower = 2;
-		this->forwardThrusterPower = 10;
-		this->rotationThrusterPower = 0.1;
-		this->velocityVector = { 0,0,0 };
-		this->energyVector = { 0,0,0 };
-		this->fluidDensity = 1.225; //density of air
-		this->dragFactor = 2.05;//drag factor of square
+	this->maxEnergyVector = this->shipMass * this->maxSpeed * this->maxSpeed * 0.5;
+
+	this->reverseThrusterPower = 2;
+	this->forwardThrusterPower = 10;
+	this->rotationThrusterPower = 0.1;
+	this->velocityVector = { 0,0,0 };
+	this->energyVector = { 0,0,0 };
+	this->fluidDensity = 1.225; //density of air
+	this->dragFactor = 2.05;//drag factor of square
 }
 
 // Called when the game starts or when spawned
 void Acpp_Spaceship::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 }
 
 // Called every frame
 void Acpp_Spaceship::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	 
+
 }
 
 // Called to bind functionality to input
@@ -55,7 +55,7 @@ void Acpp_Spaceship::gearUp()
 
 void Acpp_Spaceship::gearDown()
 {
-	if (this->actualGear > 0 || this->actualGear > (-1*this->backwardGears))this->actualGear--;
+	if (this->actualGear > 0 || this->actualGear > (-1 * this->backwardGears))this->actualGear--;
 }
 
 void Acpp_Spaceship::stop()
@@ -72,7 +72,7 @@ void Acpp_Spaceship::addEnergy(UPARAM(ref) float deltaTime)
 	if (this->actualGear > 0)
 	{
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("This is an on screen message!1"));
-		deltaEnergyVector = { this->forwardThrusterPower * deltaTime * ((float)this->actualGear/ (float)this->forwardGears),0,0 };
+		deltaEnergyVector = { this->forwardThrusterPower * deltaTime * ((float)this->actualGear / (float)this->forwardGears),0,0 };
 	}
 	else if (this->actualGear < 0)
 	{
@@ -95,7 +95,7 @@ void Acpp_Spaceship::calculateVelocityVector()
 
 	if (deltaVelocity.X < 0)deltaVelocity.X = -sqrt(-deltaVelocity.X);
 	else deltaVelocity.X = sqrt(deltaVelocity.X);
-	
+
 	if (deltaVelocity.Y < 0)deltaVelocity.Y = -sqrt(-deltaVelocity.Y);
 	else deltaVelocity.Y = sqrt(deltaVelocity.Y);
 
