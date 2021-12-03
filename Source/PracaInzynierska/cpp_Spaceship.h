@@ -67,9 +67,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Movement Functions")
 		void stop();
 	UFUNCTION(BlueprintCallable, Category = "Movement Functions")
-		void addEnergy(UPARAM(ref) float deltaTime);
+		void addEnergy(UPARAM(ref) float deltaTime, UPARAM(ref) float actorRotation);
 	UFUNCTION(BlueprintCallable, Category = "Movement Functions")
-		void calculateVelocityVector();
+		void calculateVelocityVector(UPARAM(ref) float actorRotation);
 	UFUNCTION(BlueprintCallable, Category = "Movement Functions")
 		void calculateDragForce(UPARAM(ref) float velocity);
 	UFUNCTION(BlueprintCallable, Category = "Movement Functions")

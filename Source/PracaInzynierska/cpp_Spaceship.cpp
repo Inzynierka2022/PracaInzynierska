@@ -63,9 +63,8 @@ void Acpp_Spaceship::stop()
 	this->actualGear = 0;
 }
 
-void Acpp_Spaceship::addEnergy(UPARAM(ref) float deltaTime)
+void Acpp_Spaceship::addEnergy(UPARAM(ref) float deltaTime, UPARAM(ref) float actorRotation)
 {
-	FRotator actorRotation = this->GetActorRotation();
 	FVector deltaEnergyVector = {};
 
 	if (this->actualGear == 0)return;
@@ -79,7 +78,8 @@ void Acpp_Spaceship::addEnergy(UPARAM(ref) float deltaTime)
 		deltaEnergyVector = { this->forwardThrusterPower * deltaTime * ((float)this->actualGear / (float)this->backwardGears),0,0 };
 	}
 
-	deltaEnergyVector = actorRotation.RotateVector(deltaEnergyVector);
+	//deltaEnergyVector = actorRotation.RotateVector(deltaEnergyVector);
+	deltaEnergyVector = deltaEnergyVector.RotateAngleAxis(actorRotation, FVector(0,0,1));
 	this->energyVector += deltaEnergyVector;
 
 	if (this->energyVector.Size() > this->maxEnergyVector)
@@ -89,17 +89,13 @@ void Acpp_Spaceship::addEnergy(UPARAM(ref) float deltaTime)
 	}
 }
 
-void Acpp_Spaceship::calculateVelocityVector()
+void Acpp_Spaceship::calculateVelocityVector(UPARAM(ref) float actorRotation)
 {
-	FVector deltaVelocity = (this->energyVector * 2) / this->shipMass;
+	this->velocityVector = this->energyVector;
+	this->velocityVector = (this->energyVector * 2) / this->shipMass;
 
-	if (deltaVelocity.X < 0)deltaVelocity.X = -sqrt(-deltaVelocity.X);
-	else deltaVelocity.X = sqrt(deltaVelocity.X);
-
-	if (deltaVelocity.Y < 0)deltaVelocity.Y = -sqrt(-deltaVelocity.Y);
-	else deltaVelocity.Y = sqrt(deltaVelocity.Y);
-
-	this->velocityVector = deltaVelocity;
+	/*this->velocityVector = FVector( (this->energyVector.Size() * 2) / this->shipMass ,0,0);
+	this->velocityVector = this->velocityVector.RotateAngleAxis(actorRotation, FVector(0, 0, 1));*/
 }
 
 void Acpp_Spaceship::calculateDragForce(UPARAM(ref) float velocity)
