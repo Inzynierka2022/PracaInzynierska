@@ -70,7 +70,6 @@ void Acpp_Spaceship::addEnergy(UPARAM(ref) float deltaTime, UPARAM(ref) float ac
 	if (this->actualGear == 0)return;
 	if (this->actualGear > 0)
 	{
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("This is an on screen message!1"));
 		deltaEnergyVector = { this->forwardThrusterPower * deltaTime * ((float)this->actualGear / (float)this->forwardGears),0,0 };
 	}
 	else if (this->actualGear < 0)
@@ -78,7 +77,6 @@ void Acpp_Spaceship::addEnergy(UPARAM(ref) float deltaTime, UPARAM(ref) float ac
 		deltaEnergyVector = { this->forwardThrusterPower * deltaTime * ((float)this->actualGear / (float)this->backwardGears),0,0 };
 	}
 
-	//deltaEnergyVector = actorRotation.RotateVector(deltaEnergyVector);
 	deltaEnergyVector = deltaEnergyVector.RotateAngleAxis(actorRotation, FVector(0,0,1));
 	this->energyVector += deltaEnergyVector;
 
@@ -108,4 +106,22 @@ void Acpp_Spaceship::calculateDragVector(UPARAM(ref) float deltaTime)
 	this->dragVector = this->energyVector;
 	this->dragVector.Normalize();
 	this->dragVector *= this->dragForce * deltaTime * -1;
+}
+
+int Acpp_Spaceship::determineTurnDirection(UPARAM(ref) float actualAngle, UPARAM(ref) float targetAngle)
+{
+	float turnDistance = abs((actualAngle + 180) - (targetAngle + 180));
+	if (turnDistance < 5)return 0.0f;
+	if (actualAngle >= 0 && targetAngle >= 0)
+	{
+		if (targetAngle > actualAngle)return 1.0f;
+		else return -1.0f;
+	}
+	else if (actualAngle < 0 && targetAngle < 0)
+	{
+		if (targetAngle > actualAngle)return 1.0f;
+		else return -1.0f;
+	}
+	else if (actualAngle >= 0 && targetAngle <= 0 && targetAngle < ((180 - actualAngle) * -1))return 1.0f;
+	else return -1.0f;
 }
