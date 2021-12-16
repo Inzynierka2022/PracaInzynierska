@@ -25,6 +25,7 @@ protected:
 		int forwardGears;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
 		int backwardGears;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
 		float maxSpeed;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
@@ -41,8 +42,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
 		float dragFactor;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
-		float dragForce;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
 		float fluidDensity;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
@@ -51,6 +50,12 @@ protected:
 		FVector velocityVector;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
 		FVector dragVector;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
+		float dragForce;
+
+
+
 
 
 public:
@@ -67,11 +72,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Movement Functions")
 		void stop();
 	UFUNCTION(BlueprintCallable, Category = "Movement Functions")
-		void addEnergy(UPARAM(ref) float deltaTime);
+		void addEnergy(UPARAM(ref) float deltaTime, UPARAM(ref) float actorRotation);
 	UFUNCTION(BlueprintCallable, Category = "Movement Functions")
-		void calculateVelocityVector();
+		void calculateVelocityVector(UPARAM(ref) float actorRotation);
 	UFUNCTION(BlueprintCallable, Category = "Movement Functions")
 		void calculateDragForce(UPARAM(ref) float velocity);
 	UFUNCTION(BlueprintCallable, Category = "Movement Functions")
 		void calculateDragVector(UPARAM(ref) float deltaTime);
+	UFUNCTION(BlueprintCallable, Category = "Movement Functions")
+		int determineTurnDirection(UPARAM(ref) float actualAngle, UPARAM(ref) float targetAngle);
 };
