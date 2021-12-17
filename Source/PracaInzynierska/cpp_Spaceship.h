@@ -81,4 +81,8 @@ public:
 		void calculateDragVector(UPARAM(ref) float deltaTime);
 	UFUNCTION(BlueprintCallable, Category = "Movement Functions")
 		int determineTurnDirection(UPARAM(ref) float actualAngle, UPARAM(ref) float targetAngle);
+	UFUNCTION(BlueprintCallable, Category = "Movement Functions")
+		void collisiohnHit();
+	UFUNCTION(BlueprintCallable, Category = "Movement Functions")
+		void setMaxSpeed(UPARAM(ref) float newSpeed);
 };

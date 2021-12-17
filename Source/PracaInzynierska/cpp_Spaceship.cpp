@@ -123,5 +123,19 @@ int Acpp_Spaceship::determineTurnDirection(UPARAM(ref) float actualAngle, UPARAM
 		else return -1.0f;
 	}
 	else if (actualAngle >= 0 && targetAngle <= 0 && targetAngle < ((180 - actualAngle) * -1))return 1.0f;
-	else return -1.0f;
+	else if (actualAngle+180 < 180 && targetAngle > 180 && targetAngle < (targetAngle+180) - (actualAngle+180 > 90))return -1.0f;
+	else return 1.0f;
+}
+
+void Acpp_Spaceship::collisiohnHit()
+{
+	float energy = this->energyVector.Size();
+
+	this->energyVector.RotateAngleAxis(180, FVector(0, 0, 1));
+}
+
+void Acpp_Spaceship::setMaxSpeed(UPARAM(ref) float newSpeed)
+{
+	this->maxSpeed = newSpeed;
+	this->maxEnergyVector = this->shipMass * this->maxSpeed * this->maxSpeed * 0.5;
 }
