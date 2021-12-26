@@ -20,7 +20,7 @@ Acpp_Spaceship::Acpp_Spaceship()
 
 	this->reverseThrusterPower = 2;
 	this->forwardThrusterPower = 10;
-	this->rotationThrusterPower = 0.1;
+	this->rotationThrusterPower = 0.5;
 	this->velocityVector = { 0,0,0 };
 	this->energyVector = { 0,0,0 };
 	this->fluidDensity = 1.225; //density of air
@@ -110,21 +110,39 @@ void Acpp_Spaceship::calculateDragVector(UPARAM(ref) float deltaTime)
 
 int Acpp_Spaceship::determineTurnDirection(UPARAM(ref) float actualAngle, UPARAM(ref) float targetAngle)
 {
-	float turnDistance = abs((actualAngle + 180) - (targetAngle + 180));
-	if (turnDistance < 5)return 0.0f;
-	if (actualAngle >= 0 && targetAngle >= 0)
+	//https://math.stackexchange.com/questions/110080/shortest-way-to-achieve-target-angle/2898118
+	float t = (targetAngle + 180);
+	float c = (actualAngle + 180);
+	float a = t - c;
+	float b = t - c + 360;
+	float y = t - c - 360;
+
+	if (abs(a) < abs(b))
 	{
-		if (targetAngle > actualAngle)return 1.0f;
-		else return -1.0f;
+		if (abs(a) < abs(y))
+		{
+			if (a < 0)return -1;
+			else return 1;
+		}
+		else
+		{
+			if (y < 0)return -1;
+			else return 1;
+		}
 	}
-	else if (actualAngle < 0 && targetAngle < 0)
+	else
 	{
-		if (targetAngle > actualAngle)return 1.0f;
-		else return -1.0f;
+		if (abs(b) < abs(y))
+		{
+			if (b < 0)return -1;
+			else return 1;
+		}
+		else
+		{
+			if (b < 0)return -1;
+			else return 1;
+		}
 	}
-	else if (actualAngle >= 0 && targetAngle <= 0 && targetAngle < ((180 - actualAngle) * -1))return 1.0f;
-	else if (actualAngle+180 < 180 && targetAngle > 180 && targetAngle < (targetAngle+180) - (actualAngle+180 > 90))return -1.0f;
-	else return 1.0f;
 }
 
 void Acpp_Spaceship::collisiohnHit()
