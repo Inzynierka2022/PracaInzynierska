@@ -13,6 +13,7 @@ Acpp_Spaceship::Acpp_Spaceship()
 	this->forwardGears = 5;
 	this->backwardGears = 2;
 	this->actualGear = 0;
+
 	this->maxSpeed = 2;
 	this->shipMass = 1;
 
