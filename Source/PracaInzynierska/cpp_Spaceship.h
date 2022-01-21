@@ -2,7 +2,6 @@
 
 #pragma once
 #include <string>
-#include "Net/UnrealNetwork.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "cpp_Spaceship.generated.h"
@@ -16,11 +15,11 @@ class PRACAINZYNIERSKA_API Acpp_Spaceship : public APawn
 public:
 	// Sets default values for this pawn's properties
 	Acpp_Spaceship();
-	void GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const override;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables", replicated)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
 		int actualGear;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
 		int forwardGears;
@@ -47,7 +46,7 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
 		FVector energyVector;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables", replicated)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
 		FVector velocityVector;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement Variables")
 		FVector dragVector;
