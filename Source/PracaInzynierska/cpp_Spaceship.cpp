@@ -4,9 +4,16 @@
 
 #include "cpp_Spaceship.h"
 
+void Acpp_Spaceship::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const
+{
+	DOREPLIFETIME(Acpp_Spaceship, actualGear);
+	DOREPLIFETIME(Acpp_Spaceship, velocityVector);
+}
+
 // Sets default values
 Acpp_Spaceship::Acpp_Spaceship()
 {
+	bReplicates = true;
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
